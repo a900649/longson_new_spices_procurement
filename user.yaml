@@ -1,0 +1,23 @@
+credentials:
+  usernames:
+    admin:
+      email:
+      logged_in: False # Will be managed automatically
+      name: admin
+      password: $2b$12$sz6FuFqvbkOmiBW0Kzh4fOrqmXyGOwGfWk1xNsit/vNo/zOj7znZO # Will be hashed automatically
+    paul:
+      email:
+      logged_in: False # Will be managed automatically
+      name: paul
+      password: $2b$12$sz6FuFqvbkOmiBW0Kzh4fOrqmXyGOwGfWk1xNsit/vNo/zOj7znZO # Will be hashed automatically
+    fion:
+      email:
+      logged_in: False # Will be managed automatically
+      name: fion
+      password: $2b$12$sz6FuFqvbkOmiBW0Kzh4fOrqmXyGOwGfWk1xNsit/vNo/zOj7znZO # Will be hashed automatically
+cookie:
+  expiry_days: 30
+  key: kenso_paul # Must be string
+  name: some_cookie_name
+preauthorized:
+  emails:
