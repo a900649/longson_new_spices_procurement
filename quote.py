@@ -51,7 +51,7 @@ st.markdown("""
     gap: 40px;
     }
     .stTabs [data-baseweb="tab"] {
-    height: 50px;
+    height: 80px;
     white-space: pre-wrap;
     background-color: #FFFFFF;
     border-radius: 4px 4px 0px 0px;
@@ -149,24 +149,26 @@ def create_data_input(col_info_list,results_dict,area):
     if col_type.lower() == "text":
         results_dict[col] = st.text_input(show_col, key=col + " " + area, value=default_value)
     elif col_type.lower() == "date":
-        if default_value == None or default_value == "":
+        if default_value == None or default_value == "" or str(default_value) == "nan":
             results_dict[col] = st.date_input(show_col, key=col + " " + area)
         else:
             results_dict[col] = st.date_input(show_col, key=col + " " + area, value=datetime.strptime(str(default_value), "%Y-%m-%d").date())
     elif col_type.lower() == "decimal":
         col_option = round(float(col_option))
-        if default_value == None or default_value == "":
+        if default_value == None or default_value == "" or str(default_value) == "nan":
             default_value = None
         results_dict[col] = st.number_input(show_col, key=col + " " + area, step=10 ** -col_option, format="%.{}f".format(col_option), value=default_value)
     elif col_type.lower() == "integer":
-        if default_value == None or default_value == "":
+        if default_value == None or default_value == "" or str(default_value) == "nan":
             default_value = None
+        else:
+            default_value = int(default_value)
         results_dict[col] = st.number_input(show_col, key=col + " " + area, step=1, value=default_value)
     elif col_type.lower() == "radio":
         col_option_list = col_option.replace("\n", "").split(";")
         if col_option_list[-1] == "":
             del col_option_list[-1]
-        if default_value == None or default_value == "":
+        if default_value == None or default_value == "" or str(default_value) == "nan":
             results_dict[col] = st.radio(show_col, key=col + " " + area, options=col_option_list, index=0)
         else:
             results_dict[col] = st.radio(show_col, key=col + " " + area, options=col_option_list, index=col_option_list.index(default_value))
@@ -641,7 +643,6 @@ def form_page():
 
         if st.button('Check Verification Code',key="Check Verification Code"):
             verification_code_list = list(load_info.verification_code_df["Code"])
-
             if keyin_verification_code not in verification_code_list:
                 st.session_state.verification = False
                 st.session_state.name = now_datetime
