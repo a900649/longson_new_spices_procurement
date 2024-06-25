@@ -4,7 +4,7 @@
 data_source = "Azure SQL"
 
 # 專案名稱
-program_name = "longson_new_seasoning_n_premix_procurement_20240606"
+program_name = "longson_new_spices_procurement_20240606"
 
 # 存在可下載的專案名稱
 program_name_list = ["longson_new_seasoning_n_premix_chicken_proc_20240611",
