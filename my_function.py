@@ -12,6 +12,7 @@ import os
 import zipfile
 from pymysql.converters import escape_string
 
+
 def load_info_by_excel():
 
     title_df = pd.read_excel(v.excel_info_filename, engine="openpyxl", sheet_name="Title")
@@ -81,17 +82,23 @@ def upload_results_table(sql_data_list_dict,columns_list):
     save_list = []
     for key in sql_data_list_dict.keys():
         sql_data_list = sql_data_list_dict[key]
+        for i in range(0,len(sql_data_list)):
+            if str(sql_data_list[i]).lower() == "nan":
+                sql_data_list[i] = None
         save_list.append(sql_data_list)
-    print(save_list)
+
     if len(save_list) != 0:
         columns_str_list = ["`" + str(i) + "`" for i in columns_list]
+        columns_str = ",".join(columns_str_list)
         value_str_list = ["%s"] * len(save_list[0])
         db = pymysql.connect(host=v.mysql_host, port=v.mysql_port, user=v.mysql_user, password=v.mysql_password, database=v.db_name)
         cursor = db.cursor()
-        sql = "REPLACE INTO {}_results ({}) VALUES ({})".format(v.program_name,",".join(columns_str_list), ",".join(value_str_list))
+        sql = "REPLACE INTO {}_results ({}) VALUES ({})".format(v.program_name,columns_str, ",".join(value_str_list))
         k = cursor.executemany(sql, save_list)
         db.commit()
         db.close()
+
+
 
 def load_results_table(program_name):
 
