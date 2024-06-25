@@ -172,6 +172,16 @@ def create_data_input(col_info_list,results_dict,area):
             results_dict[col] = st.radio(show_col, key=col + " " + area, options=col_option_list, index=0)
         else:
             results_dict[col] = st.radio(show_col, key=col + " " + area, options=col_option_list, index=col_option_list.index(default_value))
+    elif col_type.lower() == "multiselect":
+        col_option_list = col_option.replace("\n", "").split(";")
+        if col_option_list[-1] == "":
+            del col_option_list[-1]
+        if default_value == None or default_value == "" or str(default_value) == "nan":
+            selected_list = st.multiselect(show_col, key=col + " " + area, options=col_option_list)
+            results_dict[col] = ",".join(selected_list)
+        else:
+            selected_list = default_value.split(",")
+            results_dict[col] = st.multiselect(show_col, key=col + " " + area, options=col_option_list, default=selected_list)
     else:
         results_dict[col] = st.text_input(show_col, key=col + " " + area, value=default_value)
     return results_dict
@@ -643,6 +653,7 @@ def form_page():
 
         if st.button('Check Verification Code',key="Check Verification Code"):
             verification_code_list = list(load_info.verification_code_df["Code"])
+
             if keyin_verification_code not in verification_code_list:
                 st.session_state.verification = False
                 st.session_state.name = now_datetime
@@ -658,6 +669,9 @@ def form_page():
 
     elif st.session_state.get("verification") == True:
         form(now_datetime, st.session_state.name)
+        a1, a2 = st.columns([10, 1])
+        with a2:
+            st.write(v.version)
 
     st.markdown('---')
 
